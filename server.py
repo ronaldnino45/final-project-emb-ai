@@ -13,12 +13,12 @@ def sent_analyzer():
     response = emotion_detector(text_to_analyze)
   
     # Extract the label and score from the response
-    response = str(response)[1:-2]
-    dominant_emotion= str(response)[-2]
+    response_text = str(response)[1:-1]
+    dominant_emotion = response["dominant_emotion"]
 
     # Return a formatted string with the sentiment label and score
    
-    return f"For the given statement, the system response: {response} . The dominant emotion is   {dominant_emotion}"
+    return f"For the given statement, the system response: {response_text} . The dominant emotion is {dominant_emotion}"
 
 @app.route("/")
 def render_index_page():
