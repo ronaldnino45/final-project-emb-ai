@@ -8,11 +8,16 @@ def emotion_detector(text_to_analyse):
     header = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
     response = requests.post(url, json=myobj, headers=header)
     formatted_response = json.loads(response.text)
-    emotion_data = formatted_response['emotionPredictions'][0]['emotion']
-    dominant_emotion = max(emotion_data, key=emotion_data.get)
-    emotion_data['dominant_emotion'] = dominant_emotion
-    return emotion_data
 
+    if response.status_code == 200:
+        emotion_data = formatted_response['emotionPredictions'][0]['emotion']
+        dominant_emotion = max(emotion_data, key=emotion_data.get)
+        emotion_data['dominant_emotion'] = dominant_emotion
+        return emotion_data
 
+    elif response.status_code == 400:
+        emotion_data = formatted_response['emotionPredictions'][0]['emotion']
+        emotion_data['dominant_emotion'] = None
+        return emotion_data
 
 
